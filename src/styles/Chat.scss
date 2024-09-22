@@ -1,0 +1,26 @@
+.message-list {
+  padding-right: 10px;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 30px;
+    max-height: 30px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    // background: #fafafa;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+    max-height: 30px;
+    height: 30px !important;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    cursor: pointer;
+  }
+}
