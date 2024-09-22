@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IoIosSearch } from 'react-icons/io'
+import { LuSend } from 'react-icons/lu'
+import { LiaSmileBeamSolid } from 'react-icons/lia'
+import { RiAttachment2 } from 'react-icons/ri'
 import '../Chat.scss'
 import ChatBox from '../components/ChatBox'
 import InputText from '../components/InputText'
@@ -19,6 +22,8 @@ export default function Chat() {
     avatar: ''
   })
   const [friends, setFriends] = useState([])
+
+  const messageEndRef = useRef(null)
 
   useEffect(() => {
     const storeData = JSON.parse(localStorage.getItem('data'))
@@ -65,8 +70,11 @@ export default function Chat() {
     }
   }, [currentUser, users])
 
-  // console.log(selectedUserId)
-  // console.log(friends)
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [messages])
 
   const handleSentMessage = ({ message }) => {
     if (!message.trim()) return // Kiểm tra nếu tin nhắn rỗng
@@ -87,8 +95,8 @@ export default function Chat() {
   }
   return (
     <div className='h-full flex flex-col'>
-      <div className='text-2xl font-semibold text-title mb-[30px]'>Chat</div>
-      <div className='flex flex-1 gap-x-8'>
+      <div className='text-2xl font-medium text-title mb-[30px]'>Chat</div>
+      <div className='flex flex-1 gap-x-6'>
         <div className='flex-[30%]'>
           <div>
             <div className='flex relative items-center border-b px-4 py-3 border-[#DEDFEB] mb-8 '>
@@ -105,23 +113,42 @@ export default function Chat() {
                 className='border-none outline-none bg-transparent w-full placeholder:text-[12px] placeholder:text-gray-400 font-medium pl-3'
               />
             </div>
-            <div className=''>
-              {friends.map((friend) => (
-                <div
-                  onClick={() => setSelectedUserId(friend.uid)}
-                  key={friend.uid}
-                  className='flex gap-2 p-3 bg-white mb-4 shadow-sm rounded-md hover:cursor-pointer'
-                >
-                  <div className='avatar'>
-                    <img
-                      src={friend.avatar}
-                      alt={friend.avatar}
-                      className='rounded-full w-9 h-9'
-                    />
+            <div className='friend-list max-h-[450px] overflow-y-scroll overflow-x-hidden'>
+              {friends.map((friend) => {
+                const latestMessage = messages
+                  .filter((message) => {
+                    return (
+                      (message.senderId === friend.uid &&
+                        message.receiverId === currentUser.uid) ||
+                      (message.senderId === currentUser.uid &&
+                        message.receiverId === friend.uid)
+                    )
+                  })
+                  .sort((a, b) => new Date(a.mId) - new Date(b.mId))[0]
+                console.log(latestMessage)
+
+                return (
+                  <div
+                    onClick={() => setSelectedUserId(friend.uid)}
+                    key={friend.uid}
+                    className={`flex gap-2 p-3 bg-white mb-4 shadow-sm rounded-md hover:cursor-pointer last:mb-0 ${selectedUserId === friend.uid ? 'bg-gray-100 shadow-lg' : ''}`}
+                  >
+                    <div className='avatar'>
+                      <img
+                        src={friend.avatar}
+                        alt={friend.avatar}
+                        className='rounded-full w-9 h-9'
+                      />
+                    </div>
+                    <div>
+                      <div className='text-sm font-medium'>{friend.name}</div>
+                      <div className='text-[12px] text-gray-900'>
+                        {latestMessage?.message || 'No messages yet'}{' '}
+                      </div>
+                    </div>
                   </div>
-                  <div className='text-sm font-medium'>{friend.name}</div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
@@ -143,6 +170,7 @@ export default function Chat() {
                   return (
                     <div
                       key={message.mId}
+                      ref={messageEndRef}
                       className='flex items-start gap-2 justify-start mb-3'
                     >
                       <div className='group'>
@@ -167,7 +195,7 @@ export default function Chat() {
                           })}
                         </small>
                       </div>
-                      <div className='message bg-[#EAE8ED] text-gray-700 font-semibold text-sm rounded-[18px] px-3 py-2 inline-block  break-all'>
+                      <div className='message bg-[#EAE8ED] text-gray-700 font-medium text-sm rounded-[18px] px-3 py-2 inline-block  break-all'>
                         <span>{message.message}</span>
                       </div>
                     </div>
@@ -176,9 +204,10 @@ export default function Chat() {
                   return (
                     <div
                       key={message.mId}
+                      ref={messageEndRef}
                       className='flex items-start gap-2 justify-end mb-3'
                     >
-                      <div className='message bg-[#2C8BF2] text-white font-semibold text-sm rounded-[18px] px-3 py-2 inline-block break-all'>
+                      <div className='message bg-[#2C8BF2] text-white font-medium text-sm rounded-[18px] px-3 py-2 inline-block break-all'>
                         <span>{message.message}</span>
                       </div>
                     </div>
@@ -186,19 +215,25 @@ export default function Chat() {
                 }
               })}
             </div>
-            <div className='input-area flex bg-white p-2 rounded-sm shadow-md'>
+            <div className='input-area relative flex bg-white p-2 items-center rounded-b-[4px] shadow-md'>
+              <div className=' text-[#AEB5C6]'>
+                <LiaSmileBeamSolid className='w-7 h-7' />
+              </div>
               <input
                 type='text'
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder='Type a message...'
-                className='bg-transparent w-full flex-1 border-none outline-none'
+                className='bg-transparent w-full flex-1 border-none outline-none p-2 placeholder:text-gray-300 placeholder:font-normal placeholder:text-sm text-gray-700 font-normal'
               />
+              <div className='text-[#AEB5C6] mr-3'>
+                <RiAttachment2 className='w-4 h-4' />
+              </div>
               <button
-                className=''
+                className='w-10 h-10 bg-gradient-to-b from-blue-300 to-[#2C8BF2] text-white rounded-full flex items-center justify-center hover:bg-[#2C8BF2] hover:text-white shadow-blue-400 shadow-xl'
                 onClick={() => handleSentMessage({ message })}
               >
-                Send
+                <LuSend />
               </button>
             </div>
           </div>

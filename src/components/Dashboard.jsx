@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import Content from './Content'
 import NavBar from './NavBar'
 import UserLogin from './UserLogin'
+import { useNavigate } from 'react-router-dom'
 
 export default function Dashboard() {
   const [userId, setUserID] = useState(localStorage.getItem('uid'))
   const [avatar, setAvatar] = useState('')
   const [userName, setUserName] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (userId) {
@@ -21,6 +23,7 @@ export default function Dashboard() {
   const handleLogout = () => {
     localStorage.removeItem('uid')
     setUserID(null)
+    navigate('/')
   }
   return (
     <>

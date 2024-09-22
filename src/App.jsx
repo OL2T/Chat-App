@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className='relative bg-gradient-to-tr from-[#A07BF4] to-[#F9B6BD] h-dvh w-full '>
-        <div className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[1200px] h-full max-w-[1200px] max-h-[700px]'>
+        <div className='absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[1200px] h-full max-w-[1200px] max-h-[700px] shadow-xl'>
           {routeElement}
         </div>
       </div>

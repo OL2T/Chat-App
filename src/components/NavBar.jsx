@@ -56,7 +56,7 @@ export default function NavBar({ avatar, userName, handleLogout }) {
   }
 
   return (
-    <div className='bg-[#D6D7F1] flex flex-col  h-full text-[#9EA8BB] min-w-[280px]'>
+    <div className='bg-[#D6D7F1] flex flex-[20%] flex-col h-full text-[#9EA8BB]'>
       <div className='user my-10 text-center'>
         <img
           src={avatar}
@@ -83,7 +83,7 @@ export default function NavBar({ avatar, userName, handleLogout }) {
         ))}
       </ul>
       <button
-        className='bg-transparent flex items-center gap-4 pl-[30px] py-4 text-red-500 text-left text-[12px] font-semibold uppercase'
+        className='bg-transparent flex items-center gap-4 pl-[30px] py-4 mb-3 text-red-500 text-left text-[12px] font-semibold uppercase'
         onClick={handleLogout}
       >
         <SlLogout className='stroke-[2px] w-[18px] h-[18px]' />
