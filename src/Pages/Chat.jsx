@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { IoIosSearch } from 'react-icons/io'
-import ChatBox from '../components/ChatBox'
 import '../styles/Chat.scss'
+import ChatBox from '../components/ChatBox'
 import InputText from '../components/InputText'
 
 export default function Chat() {
