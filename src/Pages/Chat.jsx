@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { IoIosSearch } from 'react-icons/io'
-import '../styles/Chat.scss'
+import '../../src/Chat.scss'
 import ChatBox from '../components/ChatBox'
 import InputText from '../components/InputText'
 

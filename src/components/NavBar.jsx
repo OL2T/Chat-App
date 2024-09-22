@@ -8,7 +8,7 @@ import { HiOutlineTag } from 'react-icons/hi2'
 import { IoDocumentTextOutline } from 'react-icons/io5'
 import { IoSettingsOutline } from 'react-icons/io5'
 import { SlLogout } from 'react-icons/sl'
-import '../styles/NavBar.scss'
+import '../../src/NavBar.scss'
 
 const menuItems = [
   {
