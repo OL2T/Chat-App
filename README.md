@@ -1,8 +1,15 @@
-# React + Vite
+# React Chat App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Đây là Web Chat App của em được xây dựng từ React + Vite
 
-Currently, two official plugins are available:
+## Ý tưởng
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Đầu tiên em tạo ra 2 mảng Users có 10 người dùng mặc định và Data Messages và lưu nó vào trong localStorage sau đó thao tác với React hook để tạo ra UI.
+
+## Các công nghệ sử dụng
+
+**Frameworks**: React 18
+**State management**: React hook
+**Styling**: TailwindCss
+**Git**: https://github.com/OL2T/Chat-App
+**Deploy on Vercel**: https://nexlab-chat-app.vercel.app/

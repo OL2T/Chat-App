@@ -29,7 +29,6 @@ export default function Chat() {
 
   useEffect(() => {
     const storeData = JSON.parse(localStorage.getItem('data'))
-    // console.log(storeData)
     setData(storeData)
   }, [])
 
@@ -111,6 +110,7 @@ export default function Chat() {
 
     setMessage('')
   }
+
   return (
     <div className='h-full flex flex-col'>
       <div className='flex items-center justify-end gap-8'>
@@ -171,94 +171,98 @@ export default function Chat() {
             </div>
           </div>
         </div>
-
-        <div className='flex flex-col w-full h-full flex-[70%]'>
-          <div className='header-chat h-[49px] border-b border-[#DEDFEB] mb-8 '>
-            <div className='font-semibold text-title'>Gold Coast</div>
-            <div className='font-semibold text-gray-400 text-[12px]'>
-              From :{' '}
-              <span>
-                {friends.find((friend) => friend.uid === selectedUserId)?.name}
-              </span>
-            </div>
-          </div>
-          <div className='chat-container flex flex-col flex-1 justify-between'>
-            <div className='message-list flex-1 max-h-[400px] h-full overflow-y-scroll max-w-full'>
-              {messages.map((message) => {
-                if (message.receiverId === currentUser.uid) {
-                  return (
-                    <div
-                      key={message.mId}
-                      ref={messageEndRef}
-                      className='flex items-start gap-2 justify-start mb-3'
-                    >
-                      <div className='group'>
-                        <div className='avatar bg-gray-200 w-9 h-9 rounded-full'>
-                          <img
-                            src={
-                              friends.find(
-                                (friend) => friend.uid === message.senderId
-                              )?.avatar
-                            }
-                            alt={
-                              friends.find(
-                                (friend) => friend.uid === message.senderId
-                              )?.avatar
-                            }
-                            className=' bg-gray-200 w-9 h-9 rounded-full'
-                          />
+        <div className='flex-[70%]'>
+          {selectedUserId !== null && (
+            <div className='flex flex-col w-full h-full'>
+              <div className='header-chat h-[49px] border-b border-[#DEDFEB] mb-8 '>
+                <div className='font-semibold text-title'>Gold Coast</div>
+                <div className='font-semibold text-gray-400 text-[12px]'>
+                  From :{' '}
+                  <span>
+                    {
+                      friends.find((friend) => friend.uid === selectedUserId)
+                        ?.name
+                    }
+                  </span>
+                </div>
+              </div>
+              <div className='chat-container flex flex-col flex-1 justify-between'>
+                <div className='message-list flex-1 max-h-[400px] h-full overflow-y-scroll max-w-full'>
+                  {messages.map((message) => {
+                    if (message.receiverId === currentUser.uid) {
+                      return (
+                        <div
+                          key={message.mId}
+                          ref={messageEndRef}
+                          className='flex items-start gap-2 justify-start mb-3'
+                        >
+                          <div className='group'>
+                            <div className='avatar bg-gray-200 w-9 h-9 rounded-full'>
+                              <img
+                                src={
+                                  friends.find(
+                                    (friend) => friend.uid === message.senderId
+                                  )?.avatar
+                                }
+                                alt={
+                                  friends.find(
+                                    (friend) => friend.uid === message.senderId
+                                  )?.avatar
+                                }
+                                className=' bg-gray-200 w-9 h-9 rounded-full'
+                              />
+                            </div>
+                            <small>{message.timestamp} </small>
+                          </div>
+                          <div className='message bg-[#EAE8ED] text-gray-700 font-medium text-sm rounded-[18px] px-3 py-2 inline-block  break-all'>
+                            <span>{message.message}</span>
+                          </div>
                         </div>
-                        <small>{message.timestamp} </small>
-                      </div>
-                      <div className='message bg-[#EAE8ED] text-gray-700 font-medium text-sm rounded-[18px] px-3 py-2 inline-block  break-all'>
-                        <span>{message.message}</span>
-                      </div>
-                    </div>
-                  )
-                } else {
-                  return (
-                    <div
-                      key={message.mId}
-                      ref={messageEndRef}
-                      className='flex items-start gap-2 justify-end mb-3'
-                    >
-                      <div className='message bg-[#2C8BF2] text-white font-medium text-sm rounded-[18px] px-3 py-2 inline-block break-all'>
-                        <span>{message.message}</span>
-                      </div>
-                    </div>
-                  )
-                }
-              })}
-            </div>
-            <div className='input-area relative flex bg-white px-4 py-2 items-center rounded-b-[4px] shadow-md'>
-              <div className=' text-[#AEB5C6]'>
-                <LiaSmileBeamSolid className='w-7 h-7' />
+                      )
+                    } else {
+                      return (
+                        <div
+                          key={message.mId}
+                          ref={messageEndRef}
+                          className='flex items-start gap-2 justify-end mb-3'
+                        >
+                          <div className='message bg-[#2C8BF2] text-white font-medium text-sm rounded-[18px] px-3 py-2 inline-block break-all'>
+                            <span>{message.message}</span>
+                          </div>
+                        </div>
+                      )
+                    }
+                  })}
+                </div>
+                <div className='input-area relative flex bg-white px-4 py-2 items-center rounded-b-[4px] shadow-md'>
+                  <div className=' text-[#AEB5C6]'>
+                    <LiaSmileBeamSolid className='w-7 h-7' />
+                  </div>
+                  <input
+                    type='text'
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleSentMessage({ message })
+                      }
+                    }}
+                    placeholder='Type a message...'
+                    className='bg-transparent w-full flex-1 border-none outline-none p-2 placeholder:text-gray-300 placeholder:font-normal placeholder:text-sm text-gray-700 font-normal'
+                  />
+                  <div className='text-[#AEB5C6] mr-3'>
+                    <RiAttachment2 className='w-4 h-4' />
+                  </div>
+                  <button
+                    className='w-10 h-10 bg-gradient-to-b from-blue-300 to-[#2C8BF2] text-white rounded-full flex items-center justify-center hover:bg-[#2C8BF2] hover:text-white shadow-blue-400 shadow-xl'
+                    onClick={() => handleSentMessage({ message })}
+                  >
+                    <LuSend />
+                  </button>
+                </div>
               </div>
-              <input
-                type='text'
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    handleSentMessage({ message })
-                  }
-                }}
-                placeholder='Type a message...'
-                className='bg-transparent w-full flex-1 border-none outline-none p-2 placeholder:text-gray-300 placeholder:font-normal placeholder:text-sm text-gray-700 font-normal'
-              />
-              <div className='text-[#AEB5C6] mr-3'>
-                <RiAttachment2 className='w-4 h-4' />
-              </div>
-              <button
-                className='w-10 h-10 bg-gradient-to-b from-blue-300 to-[#2C8BF2] text-white rounded-full flex items-center justify-center hover:bg-[#2C8BF2] hover:text-white shadow-blue-400 shadow-xl'
-                onClick={() => handleSentMessage({ message })}
-              >
-                <LuSend />
-              </button>
             </div>
-          </div>
-          {/* <ChatBox messages={messages} />
-          <InputText handleSendMessage={handleSendMessage} /> */}
+          )}
         </div>
       </div>
     </div>

@@ -3,13 +3,13 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 
 function getSequentialTimestamp(startTime, stepInMinutes) {
-  const nextTime = new Date(startTime.getTime() + stepInMinutes * 60 * 1000) // Tăng thời gian theo từng bước
+  const nextTime = new Date(startTime.getTime() + stepInMinutes * 60 * 1000)
   return nextTime
 }
 
-// Tạo thời gian bắt đầu (ví dụ từ một tuần trước)
-let baseTime = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) // Thời gian bắt đầu 7 ngày trước
-let baseId = 1 // Giá trị mId bắt đầu
+//Create time 1 week ago
+let baseTime = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
+let baseId = 1
 
 const data = [
   {
@@ -228,16 +228,12 @@ export default function UserLogin({ setUser, setAvatar }) {
 
     localStorage.setItem('uid', uid)
     localStorage.setItem('isLoggedIn', 'true')
-    // localStorage.setItem(
-    //   'avatar',
-    //   `https://picsum.photos/id/${_.random(1, 1000)}/200/300`
-    // )
     setUser(uid)
     setAvatar(localStorage.getItem('avatar'))
   }
 
   return (
-    <div className='bg-white max-w-[480px] m-auto p-4 rounded-md shadow-md'>
+    <div className='bg-white absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] min-w-[480px] m-auto p-4 rounded-md shadow-md'>
       <h1 className='text-3xl font-bold text-center mb-8 text-title'>Login</h1>
       <form onSubmit={handleUserLogin} className=''>
         <div className='flex flex-col items-center justify-center h-full'>
