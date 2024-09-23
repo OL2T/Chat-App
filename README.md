@@ -2,9 +2,7 @@
 
 Đây là Web Chat App của em được xây dựng từ React + Vite
 
-![Intro_![Intro_M_ChatApp](https://github.com/user-attachments/assets/732667e0-1aca-4e5e-a084-cc8c63183e70)
-ChatApp](https://github.com/user-attachments/assets/423bc1ed-3778-44d7-ac15-48b38bb8d637)
-
+![Intro_M_ChatApp](https://github.com/user-attachments/assets/898bfaf7-f056-4dcd-b258-fd00ea5954c2)
 
 ## Ý tưởng
 
