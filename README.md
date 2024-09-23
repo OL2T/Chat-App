@@ -8,8 +8,8 @@
 
 ## Các công nghệ sử dụng
 
-**Frameworks**: React 18
-**State management**: React hook
-**Styling**: TailwindCss
-**Git**: https://github.com/OL2T/Chat-App
-**Deploy on Vercel**: https://nexlab-chat-app.vercel.app/
+- **Frameworks**: React 18
+- **State management**: React hook
+- **Styling**: TailwindCss
+- **Git**: https://github.com/OL2T/Chat-App
+- **Deploy on Vercel**: https://nexlab-chat-app.vercel.app/
