@@ -1,6 +1,7 @@
 # React Chat App
 
 Đây là Web Chat App của em được xây dựng từ React + Vite
+![Intro_ChatApp](https://github.com/user-attachments/assets/423bc1ed-3778-44d7-ac15-48b38bb8d637)
 
 ## Ý tưởng
 
