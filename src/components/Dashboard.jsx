@@ -15,6 +15,7 @@ export default function Dashboard() {
       const user = JSON.parse(localStorage.getItem('users')).find(
         (user) => user.uid === Number(localStorage.getItem('uid'))
       )
+      // console.log(user)
       setUserName(user.name)
       setAvatar(user.avatar)
     }

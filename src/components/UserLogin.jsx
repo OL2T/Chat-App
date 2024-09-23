@@ -2,138 +2,199 @@ import { useState } from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 
+function getSequentialTimestamp(startTime, stepInMinutes) {
+  const nextTime = new Date(startTime.getTime() + stepInMinutes * 60 * 1000) // Tăng thời gian theo từng bước
+  return nextTime
+}
+
+// Tạo thời gian bắt đầu (ví dụ từ một tuần trước)
+let baseTime = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000) // Thời gian bắt đầu 7 ngày trước
+let baseId = 1 // Giá trị mId bắt đầu
+
+const data = [
+  {
+    mId: baseId++,
+    message: 'Hello',
+    timestamp: baseTime.toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 1,
+    receiverId: 2
+  },
+
+  {
+    mId: baseId++,
+    message: 'How are you?',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      2
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 2,
+    receiverId: 1
+  },
+
+  {
+    mId: baseId++,
+    message: 'Good!',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      3
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 1,
+    receiverId: 2
+  },
+
+  {
+    mId: baseId++,
+    message: 'Hey Victor, long time no see!',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      5
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 1,
+    receiverId: 3
+  },
+
+  {
+    mId: baseId++,
+    message: 'Hey Hurin! What’s up?',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      4
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 3,
+    receiverId: 1
+  },
+
+  {
+    mId: baseId++,
+    message: 'Just working on a new project.',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      6
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 1,
+    receiverId: 3
+  },
+
+  {
+    mId: baseId++,
+    message: 'Need any help?',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      2
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 3,
+    receiverId: 1
+  },
+
+  {
+    mId: baseId++,
+    message: 'Yes, that’d be great!',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      3
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 1,
+    receiverId: 3
+  },
+
+  {
+    mId: baseId++,
+    message: 'Hey Jony, can you check the new designs?',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      5
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 5,
+    receiverId: 4
+  },
+
+  {
+    mId: baseId++,
+    message: 'Sure! Send them over.',
+    timestamp: (baseTime = getSequentialTimestamp(
+      baseTime,
+      4
+    )).toLocaleTimeString([], { timeStyle: 'short' }),
+    senderId: 4,
+    receiverId: 5
+  }
+]
+
+const getRandomAvatar = () =>
+  `https://picsum.photos/seed/${_.random(1, 1000)}/200/300`
+
 const users = [
   {
     uid: 1,
     name: 'Hurin omar',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
   {
     uid: 2,
     name: 'Iftikhar Shaikh',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 3, 4, 5, 6, 7, 8, 9, 10]
   },
   {
     uid: 3,
     name: 'Victor Erixon',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 4, 5, 6, 7, 8, 9, 10]
   },
   {
     uid: 4,
     name: 'Hali',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 5, 6, 7, 8, 9, 10]
   },
   {
     uid: 5,
     name: 'Jony Ive',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 6, 7, 8, 9, 10]
   },
   {
     uid: 6,
     name: 'Aratu Zakia',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 5, 7, 8, 9, 10]
   },
   {
     uid: 7,
     name: 'Sufiya',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 5, 6, 8, 9, 10]
   },
   {
     uid: 8,
     name: 'Pablo Stanley',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 5, 6, 7, 9, 10]
   },
   {
     uid: 9,
     name: 'Farhan Makrani',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 5, 6, 7, 8, 10]
   },
   {
     uid: 10,
     name: 'Abrar',
-    avatar: `https://picsum.photos/id/${_.random(1, 1000)}/200/300`,
+    avatar: getRandomAvatar(),
     friends: [1, 2, 3, 4, 5, 6, 7, 8, 9]
   }
 ]
-const data = [
-  {
-    mId: 1,
-    message: 'Hello',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 1,
-    receiverId: 2
-  },
-  {
-    mId: 2,
-    message: 'How are you?',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 2,
-    receiverId: 1
-  },
-  {
-    mId: 3,
-    message: '5',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 1,
-    receiverId: 2
-  },
-  {
-    mId: 4,
-    message: 'Hello',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 1,
-    receiverId: 2
-  },
-  {
-    mId: 5,
-    message: 'This is message 1 -> 5',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 1,
-    receiverId: 5
-  },
-  {
-    mId: 6,
-    message: 'This is message 5 -> 1',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 5,
-    receiverId: 1
-  },
-  {
-    mId: 7,
-    message: 'Hello',
-    timestamp: new Date().toLocaleTimeString([], {
-      timeStyle: 'short'
-    }),
-    senderId: 1,
-    receiverId: 2
-  }
-]
+
 export default function UserLogin({ setUser, setAvatar }) {
   const [uid, setUid] = useState('')
 
   const handleUserLogin = () => {
     if (!uid) return
+    if (uid < 1) {
+      alert('User ID must be greater than 0')
+      return
+    }
     if (
       localStorage.getItem('data') === null &&
       localStorage.getItem('users') === null
@@ -141,12 +202,36 @@ export default function UserLogin({ setUser, setAvatar }) {
       localStorage.setItem('users', JSON.stringify(users))
       localStorage.setItem('data', JSON.stringify(data))
     }
+
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || []
+    if (uid > 10 && !existingUsers.find((user) => user.uid === Number(uid))) {
+      const newUser = {
+        uid: Number(uid),
+        name: `User ${uid}`,
+        avatar: getRandomAvatar(),
+        friends: existingUsers
+          .map((user) => user.uid)
+          .filter((newUid) => newUid !== uid)
+      }
+
+      existingUsers.push(newUser)
+
+      existingUsers.forEach((user) => {
+        if (user.uid !== uid) {
+          // console.log(user.uid)
+          user.friends.push(Number(uid))
+        }
+      })
+
+      localStorage.setItem('users', JSON.stringify(existingUsers))
+    }
+
     localStorage.setItem('uid', uid)
     localStorage.setItem('isLoggedIn', 'true')
-    localStorage.setItem(
-      'avatar',
-      `https://picsum.photos/id/${_.random(1, 1000)}/200/300`
-    )
+    // localStorage.setItem(
+    //   'avatar',
+    //   `https://picsum.photos/id/${_.random(1, 1000)}/200/300`
+    // )
     setUser(uid)
     setAvatar(localStorage.getItem('avatar'))
   }
@@ -164,12 +249,11 @@ export default function UserLogin({ setUser, setAvatar }) {
               User ID:
             </label>
             <input
-              type='text'
-              // name='userId'
+              type='number'
               id='userId'
               required
               onChange={(e) => setUid(e.target.value)}
-              placeholder='From 1 to 10'
+              placeholder='Enter user ID from 1...'
               className='bg-white shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
             />
           </div>

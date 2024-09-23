@@ -3,6 +3,8 @@ import { IoIosSearch } from 'react-icons/io'
 import { LuSend } from 'react-icons/lu'
 import { LiaSmileBeamSolid } from 'react-icons/lia'
 import { RiAttachment2 } from 'react-icons/ri'
+import { IoMdNotificationsOutline } from 'react-icons/io'
+import { IoMdArrowDropdown } from 'react-icons/io'
 import '../Chat.scss'
 import ChatBox from '../components/ChatBox'
 import InputText from '../components/InputText'
@@ -76,12 +78,28 @@ export default function Chat() {
     }
   }, [messages])
 
-  const handleSentMessage = ({ message }) => {
-    if (!message.trim()) return // Kiểm tra nếu tin nhắn rỗng
+  const getLatestMessage = (friendId) => {
+    const latestMessage = data
+      .filter((message) => {
+        return (
+          (message.senderId === friendId &&
+            message.receiverId === currentUser.uid) ||
+          (message.senderId === currentUser.uid &&
+            message.receiverId === friendId)
+        )
+      })
+      .sort((a, b) => b.mId - a.mId)[0]
+    // console.log(latestMessage)
+    return latestMessage
+  }
 
+  const handleSentMessage = ({ message }) => {
+    if (!message.trim()) return
+    const baseId = data.length + 1
     const newMessage = {
-      mId: Math.random(),
+      mId: baseId,
       message,
+      timestamp: new Date().toLocaleTimeString([], { timeStyle: 'short' }),
       senderId: currentUser.uid,
       receiverId: selectedUserId
     }
@@ -91,10 +109,21 @@ export default function Chat() {
     setData(newData)
     localStorage.setItem('data', JSON.stringify(newData))
 
-    setMessage('') // Reset lại message sau khi gửi
+    setMessage('')
   }
   return (
     <div className='h-full flex flex-col'>
+      <div className='flex items-center justify-end gap-8'>
+        <div className='flex items-center text-gray-600 text-sm'>
+          Status: Sale{' '}
+          <span className='text-[#AEB5C6]'>
+            <IoMdArrowDropdown />
+          </span>
+        </div>
+        <div className='text-[#AEB5C6] font-semibold'>
+          <IoMdNotificationsOutline className='stroke-[2px] w-5 h-5' />
+        </div>
+      </div>
       <div className='text-2xl font-medium text-title mb-[30px]'>Chat</div>
       <div className='flex flex-1 gap-x-6'>
         <div className='flex-[30%]'>
@@ -115,34 +144,24 @@ export default function Chat() {
             </div>
             <div className='friend-list max-h-[450px] overflow-y-scroll overflow-x-hidden'>
               {friends.map((friend) => {
-                const latestMessage = messages
-                  .filter((message) => {
-                    return (
-                      (message.senderId === friend.uid &&
-                        message.receiverId === currentUser.uid) ||
-                      (message.senderId === currentUser.uid &&
-                        message.receiverId === friend.uid)
-                    )
-                  })
-                  .sort((a, b) => new Date(a.mId) - new Date(b.mId))[0]
-                console.log(latestMessage)
-
+                const latestMessage = getLatestMessage(friend.uid)
+                if (friend.uid === currentUser.uid) return null
                 return (
                   <div
                     onClick={() => setSelectedUserId(friend.uid)}
                     key={friend.uid}
-                    className={`flex gap-2 p-3 bg-white mb-4 shadow-sm rounded-md hover:cursor-pointer last:mb-0 ${selectedUserId === friend.uid ? 'bg-gray-100 shadow-lg' : ''}`}
+                    className={`flex gap-2 p-3 mb-4 rounded-md hover:cursor-pointer last:mb-0 ${selectedUserId === friend.uid ? 'bg-gray-50 shadow-lg' : 'bg-white shadow-sm'}`}
                   >
                     <div className='avatar'>
                       <img
                         src={friend.avatar}
                         alt={friend.avatar}
-                        className='rounded-full w-9 h-9'
+                        className='rounded-full w-11 h-11'
                       />
                     </div>
                     <div>
                       <div className='text-sm font-medium'>{friend.name}</div>
-                      <div className='text-[12px] text-gray-900'>
+                      <div className='limit-text text-[12px] text-gray-400'>
                         {latestMessage?.message || 'No messages yet'}{' '}
                       </div>
                     </div>
@@ -189,11 +208,7 @@ export default function Chat() {
                             className=' bg-gray-200 w-9 h-9 rounded-full'
                           />
                         </div>
-                        <small>
-                          {new Date().toLocaleTimeString([], {
-                            timeStyle: 'short'
-                          })}
-                        </small>
+                        <small>{message.timestamp} </small>
                       </div>
                       <div className='message bg-[#EAE8ED] text-gray-700 font-medium text-sm rounded-[18px] px-3 py-2 inline-block  break-all'>
                         <span>{message.message}</span>
@@ -215,7 +230,7 @@ export default function Chat() {
                 }
               })}
             </div>
-            <div className='input-area relative flex bg-white p-2 items-center rounded-b-[4px] shadow-md'>
+            <div className='input-area relative flex bg-white px-4 py-2 items-center rounded-b-[4px] shadow-md'>
               <div className=' text-[#AEB5C6]'>
                 <LiaSmileBeamSolid className='w-7 h-7' />
               </div>
