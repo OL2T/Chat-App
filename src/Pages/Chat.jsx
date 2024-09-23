@@ -238,6 +238,11 @@ export default function Chat() {
                 type='text'
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSentMessage({ message })
+                  }
+                }}
                 placeholder='Type a message...'
                 className='bg-transparent w-full flex-1 border-none outline-none p-2 placeholder:text-gray-300 placeholder:font-normal placeholder:text-sm text-gray-700 font-normal'
               />
