@@ -6,8 +6,6 @@ import { RiAttachment2 } from 'react-icons/ri'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { IoMdArrowDropdown } from 'react-icons/io'
 import '../Chat.scss'
-import ChatBox from '../components/ChatBox'
-import InputText from '../components/InputText'
 
 export default function Chat() {
   const [data, setData] = useState([])
